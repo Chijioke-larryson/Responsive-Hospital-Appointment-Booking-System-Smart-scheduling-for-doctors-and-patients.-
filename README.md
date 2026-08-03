@@ -1,62 +1,78 @@
-# 🏥 Hospital Appointment Booking System
+# Hospital Appointment Booking System
 
-A Django-based web application that streamlines hospital workflows by enabling patients to register, book, update, and cancel appointments, while doctors manage schedules via a secure dashboard.
+A Django application for patients and doctors to manage hospital appointments through a responsive web interface.
 
----
+## Features
 
-## 🚀 Features
-- **Role-based login** for doctors and patients  
-- **Patient registration** with age, gender, and contact details  
-- **Appointment booking** with date, time, and description  
-- **Update & cancel appointments** for both patients and doctors  
-- **Doctor dashboard** to view and manage schedules  
-- **Responsive UI** with clean navigation and footer  
+- Patient registration and login
+- Doctor login and dashboard
+- Appointment creation, updates, and cancellation
+- Doctor and patient lists
+- Responsive pages for home, gallery, about, and contact
+- SQLite database for local development
 
----
+## Stack
 
-## 🛠️ Tech Stack
-- **Backend:** Django, SQLite  
-- **Frontend:** HTML, CSS, Bootstrap  
-- **Authentication:** Django Auth with role-based routing  
+- Python 3.12
+- Django 6.0.7
+- SQLite
+- HTML, CSS, and Bootstrap-style responsive UI
+- Docker
 
----
+## Run From Docker Hub
 
-## 📂 Project Structure
-- `Hospital/` → Templates and static files  
-- `models.py` → Doctor, Patient, Appointment models  
-- `views.py` → Role-based views and appointment logic  
-- `urls.py` → Routing for patients and doctors  
+Pull the published image:
 
----
+```bash
+docker pull chijiokexbt/hosptalapp:v1
+docker run -d --name hospital-app -p 7000:7000 chijiokexbt/hosptalapp:v1
+```
 
-## ⚡ Getting Started
-1. Clone the repo:  
-   ```bash
-   git clone https://github.com/yourusername/HospitalAppointment_BookingSystem.git
+Open `http://localhost:7000`. View logs with `docker logs hospital-app`.
 
+## Run With Docker Locally
 
----
+From this directory:
 
-## 🏗️ System Architecture
+```bash
+docker build -t chijiokexbt/hosptalapp:v1 .
+docker run -d --name hospital-app -p 7000:7000 chijiokexbt/hosptalapp:v1
+```
 
-![Hospital Appointment Booking System Architecture](assets/project-diagram.png)
+The image runs Django's development server on container port `7000`.
 
+## Run Without Docker
 
-The diagram illustrates:
-- **Frontend:** Patients & doctors interact via responsive UI (HTML, CSS, Bootstrap).
-- **Backend:** Django handles authentication, appointment logic, and notifications.
-- **Database:** Stores doctor, patient, and appointment records.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver 0.0.0.0:7000
+```
 
+Open `http://localhost:7000`.
 
-## 📸 Screenshots:
+## Project Layout
 
-<p align="center">
-  <img src="assets/apppatient.png" alt="Patient Dashboard" width="200" style="margin:5px"/>
-  <img src="assets/appdoctor.png" alt="Doctor Dashboard" width="200" style="margin:5px"/>
-  <img src="assets/appregister.png" alt="Patient Registration Form" width="200" style="margin:5px"/>
-  <img src="assets/applogin.png" alt="Login Page" width="200" style="margin:5px"/>
-  <img src="assets/appgallery.png" alt="Gallery" width="200" style="margin:5px"/>
-</p>
+```text
+manage.py                         Django command-line entry point
+Hospital/                         Application models, views, templates, and static files
+HospitalAppointment_BookingSystem/ Django project settings and URLs
+assets/                           Screenshots and architecture diagram
+Dockerfile                        Container build instructions
+requirements.txt                  Python dependencies
+db.sqlite3                        Local development database
+```
 
-## 📜 License
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+## Data and Security Notes
+
+The default configuration is for local learning and development. Before public deployment, set `SECRET_KEY` and `ALLOWED_HOSTS` through environment variables, disable `DEBUG`, use a production WSGI/ASGI server, and move SQLite data to a persistent volume or managed database.
+
+## Screenshots
+
+![Architecture](assets/project-diagram.png)
+
+![Patient dashboard](assets/apppatient.png)
+
+![Doctor dashboard](assets/appdoctor.png)
